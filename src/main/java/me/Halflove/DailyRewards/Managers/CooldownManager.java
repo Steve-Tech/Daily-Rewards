@@ -26,83 +26,43 @@ public class CooldownManager {
         return (current > millis);
     }
 
-    public static boolean getAllowStreakUUID(Player p) {
-        long current = System.currentTimeMillis();
-        long millis = getStreakUUID(p);
-        return (current > millis);
-    }
-
-    public static boolean getAllowStreakIP(Player p) {
-        long current = System.currentTimeMillis();
-        long millis = getStreakIP(p);
-        return (current > millis);
-    }
-
-    public static long getStreakUUID(Player player) {
-        return SettingsManager.getData().getLong(player.getUniqueId() + ".reset");
-    }
-
-    public static long getStreakIP(Player player) {
-        String ip = player.getAddress().getAddress().getHostAddress();
-        ip = ip.replace(".", "-");
-        return SettingsManager.getData().getLong(String.valueOf(ip) + ".reset");
-    }
-
-    public static long getTime(Player player) {
-        return SettingsManager.getData().getLong(player.getUniqueId() + ".millis");
-    }
-
-    public static long getTimeip(Player player) {
-        String ip = player.getAddress().getAddress().getHostAddress();
-        ip = ip.replace(".", "-");
-        return SettingsManager.getData().getLong(String.valueOf(ip) + ".millis");
-    }
-
     public static String formatTime(long secs) {
         String str;
-        long seconds = secs;
-        long minutes = 0L;
-        while (seconds >= 60L) {
-            seconds -= 60L;
-            minutes++;
-        }
-        long hours = 0L;
-        while (minutes >= 60L) {
-            minutes -= 60L;
-            hours++;
-        }
+        long seconds = secs % 60L;
+        long minutes = secs / 60L;
+        long hours = secs / 60L / 60L;
         if (hours != 0L) {
             if (hours > 1L) {
-                str = String.valueOf(hours) + " Hours";
+                str = hours + " Hours";
             } else if (minutes > 61L) {
-                str = String.valueOf(hours) + " Hour " + minutes + " Minutes";
+                str = hours + " Hour " + minutes + " Minutes";
             } else if (minutes == 61L) {
-                str = String.valueOf(hours) + " Hour " + minutes + " Minute";
+                str = hours + " Hour " + minutes + " Minute";
             } else {
-                str = String.valueOf(hours) + " Hour";
+                str = hours + " Hour";
             }
         } else if (minutes != 0L) {
             if (seconds == 0L) {
                 if (minutes == 1L) {
-                    str = String.valueOf(minutes) + " Minute";
+                    str = minutes + " Minute";
                 } else {
-                    str = String.valueOf(minutes) + " Minutes";
+                    str = minutes + " Minutes";
                 }
             } else if (minutes == 1L) {
                 if (seconds == 1L) {
-                    str = String.valueOf(minutes) + " Minute " + seconds + " Second";
+                    str = minutes + " Minute " + seconds + " Second";
                 } else {
-                    str = String.valueOf(minutes) + " Minute " + seconds + " Seconds";
+                    str = minutes + " Minute " + seconds + " Seconds";
                 }
             } else if (seconds == 1L) {
-                str = String.valueOf(minutes) + " Minutes " + seconds + " Second";
+                str = minutes + " Minutes " + seconds + " Second";
             } else {
-                str = String.valueOf(minutes) + " Minutes " + seconds + " Seconds";
+                str = minutes + " Minutes " + seconds + " Seconds";
             }
         } else if (seconds == 1L) {
-            str = String.valueOf(seconds) + " Second";
+            str = seconds + " Second";
         } else {
-            str = String.valueOf(seconds) + " Seconds";
+            str = seconds + " Seconds";
         }
         if (secs <= 0L)
             str = "0 Seconds";
@@ -116,41 +76,19 @@ public class CooldownManager {
 
     public static String getRemainingSec(long millis) {
         long seconds = millis / 1000L;
-        long minutes = 0L;
-        while (seconds > 60L) {
-            seconds -= 60L;
-            minutes++;
-        }
-        while (minutes > 60L)
-            minutes -= 60L;
-        return (new StringBuilder(String.valueOf(seconds))).toString();
+        return String.valueOf(seconds % 60L);
     }
 
     public static String getRemainingMin(long millis) {
         long seconds = millis / 1000L;
-        long minutes = 0L;
-        while (seconds > 60L) {
-            seconds -= 60L;
-            minutes++;
-        }
-        while (minutes > 60L)
-            minutes -= 60L;
-        return (new StringBuilder(String.valueOf(minutes))).toString();
+        long minutes = seconds / 60L;
+        return String.valueOf(minutes % 60L);
     }
 
     public static String getRemainingHour(long millis) {
         long seconds = millis / 1000L;
-        long minutes = 0L;
-        while (seconds > 60L) {
-            seconds -= 60L;
-            minutes++;
-        }
-        long hours = 0L;
-        while (minutes > 60L) {
-            minutes -= 60L;
-            hours++;
-        }
-        return (new StringBuilder(String.valueOf(hours))).toString();
+        long minutes = seconds / 60L;
+        return String.valueOf(minutes / 60L);
     }
 }
 

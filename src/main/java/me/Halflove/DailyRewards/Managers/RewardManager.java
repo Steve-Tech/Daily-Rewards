@@ -16,7 +16,7 @@ import java.util.Random;
 public class RewardManager {
     private static Random r = new Random();
 
-    static Main plugin = (Main) Main.getPlugin(Main.class);
+    static Main plugin = Main.getPlugin(Main.class);
 
     public static void noReward(Player player) {
         String sound = SettingsManager.getConfig().getString("noreward.sound.type");
@@ -37,11 +37,11 @@ public class RewardManager {
             ip = ip.replace(".", "-");
             long toSet = Math.abs(System.currentTimeMillis())
                     + Math.abs(SettingsManager.getConfig().getInt("cooldown"));
-            SettingsManager.getData().set(String.valueOf(ip) + ".millis", Long.valueOf(toSet));
-            SettingsManager.getData().set(player.getUniqueId() + ".millis", Long.valueOf(toSet));
+            SettingsManager.getData().set(ip + ".millis", toSet);
+            SettingsManager.getData().set(player.getUniqueId() + ".millis", toSet);
             if (SettingsManager.getConfig().getBoolean("mysql.enabled")) {
-                MySQLManager.updateCooldownIP(ip, Long.valueOf(toSet).longValue());
-                MySQLManager.updateCooldownUUID(player.getUniqueId(), Long.valueOf(toSet).longValue());
+                MySQLManager.updateCooldownIP(ip, toSet);
+                MySQLManager.updateCooldownUUID(player.getUniqueId(), toSet);
             }
             SettingsManager.saveData();
             if (!SettingsManager.getConfig().getBoolean("rewards." + prize + ".permission") ||
@@ -69,9 +69,9 @@ public class RewardManager {
                             if (selectedCommand.contains(";")) {
                                 List<String> split = Splitter.on(";").splitToList(selectedCommand);
                                 for (String finalcommand : split)
-                                    Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), finalcommand);
+                                    Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalcommand);
                             } else {
-                                Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), selectedCommand);
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), selectedCommand);
                             }
                         } else {
                             Iterator<String> iterator = SettingsManager.getConfig()
@@ -84,10 +84,10 @@ public class RewardManager {
                                 if (selectedCommand.contains(";")) {
                                     List<String> split = Splitter.on(";").splitToList(selectedCommand);
                                     for (String finalcommand : split)
-                                        Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), finalcommand);
+                                        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), finalcommand);
                                     continue;
                                 }
-                                Bukkit.dispatchCommand((CommandSender) Bukkit.getConsoleSender(), selectedCommand);
+                                Bukkit.dispatchCommand(Bukkit.getConsoleSender(), selectedCommand);
                             }
                         }
                     }, 3L);

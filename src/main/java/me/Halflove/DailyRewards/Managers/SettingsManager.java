@@ -37,35 +37,36 @@ public class SettingsManager {
         cfile = new File(p.getDataFolder(), "config.yml");
         config = p.getConfig();
         config.options().copyDefaults(true);
-        config.addDefault("cooldown", Integer.valueOf(86400000));
-        config.addDefault("savetoip", Boolean.valueOf(false));
+        config.addDefault("cooldown", 86400000);
+        config.addDefault("savetoip", false);
         config.addDefault("regenerate-default-rewards", Boolean.valueOf(true));
-        config.addDefault("mysql.enabled", Boolean.valueOf(false));
+        config.addDefault("regenerate-default-rewards", true);
+        config.addDefault("mysql.enabled", false);
         config.addDefault("mysql.host-name", "localhost");
-        config.addDefault("mysql.port", Integer.valueOf(3306));
+        config.addDefault("mysql.port", 3306);
         config.addDefault("mysql.database", "example");
         config.addDefault("mysql.username", "root");
         config.addDefault("mysql.password", "password");
-        config.addDefault("loginclaim.enabled", Boolean.valueOf(false));
-        config.addDefault("loginclaim.delay", Integer.valueOf(3));
+        config.addDefault("loginclaim.enabled", false);
+        config.addDefault("loginclaim.delay", 3);
         config.addDefault("claim.sound", "");
-        config.addDefault("claim.sound.enabled", Boolean.valueOf(true));
+        config.addDefault("claim.sound.enabled", true);
         config.addDefault("claim.sound.type", "ENTITY_PLAYER_LEVELUP");
-        config.addDefault("claim.sound.volume", Integer.valueOf(1));
-        config.addDefault("claim.sound.pitch", Integer.valueOf(1));
+        config.addDefault("claim.sound.volume", 1);
+        config.addDefault("claim.sound.pitch", 1);
         config.addDefault("noreward.sound", "");
-        config.addDefault("noreward.sound.enabled", Boolean.valueOf(true));
+        config.addDefault("noreward.sound.enabled", true);
         config.addDefault("noreward.sound.type", "BLOCK_ANVIL_LAND");
-        config.addDefault("noreward.sound.volume", Integer.valueOf(1));
-        config.addDefault("noreward.sound.pitch", Integer.valueOf(1));
+        config.addDefault("noreward.sound.volume", 1);
+        config.addDefault("noreward.sound.pitch", 1);
         List<String> command = new ArrayList<>();
         command.add("give %player minecraft:diamond 1");
         List<String> bworld = new ArrayList<>();
         bworld.add("example_world");
         bworld.add("example_world2");
         config.addDefault("rewards.basic.name", "Basic");
-        config.addDefault("rewards.basic.permission", Boolean.valueOf(false));
-        config.addDefault("rewards.basic.random", Boolean.valueOf(false));
+        config.addDefault("rewards.basic.permission", false);
+        config.addDefault("rewards.basic.random", false);
         config.addDefault("rewards.basic.claim-message", "&aRewards&f: You claimed the &7Basic&f Daily Reward!");
         config.addDefault("rewards.basic.broadcast", "");
         config.addDefault("rewards.basic.commands", command);
@@ -77,8 +78,8 @@ public class SettingsManager {
         bworld2.add("example_world3");
         bworld2.add("example_world4");
         config.addDefault("rewards.advanced.name", "Advanced");
-        config.addDefault("rewards.advanced.permission", Boolean.valueOf(true));
-        config.addDefault("rewards.advanced.random", Boolean.valueOf(true));
+        config.addDefault("rewards.advanced.permission", true);
+        config.addDefault("rewards.advanced.random", true);
         config.addDefault("rewards.advanced.claim-message", "");
         config.addDefault("rewards.advanced.broadcast", "&aRewards&f: %player claimed the &eAdvanced&f Daily Reward!");
         config.addDefault("rewards.advanced.commands", command2);
@@ -92,7 +93,7 @@ public class SettingsManager {
             } catch (IOException e) {
                 Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not create data.yml!");
             }
-        data = (FileConfiguration) YamlConfiguration.loadConfiguration(dfile);
+        data = YamlConfiguration.loadConfiguration(dfile);
         mfile = new File(p.getDataFolder(), "messages.yml");
         if (!mfile.exists())
             try {
@@ -100,7 +101,7 @@ public class SettingsManager {
             } catch (IOException e) {
                 Bukkit.getServer().getLogger().severe(ChatColor.RED + "Could not create messages.yml!");
             }
-        msg = (FileConfiguration) YamlConfiguration.loadConfiguration(mfile);
+        msg = YamlConfiguration.loadConfiguration(mfile);
         msg.options().copyDefaults(true);
         msg.addDefault("no-rewards", "&aRewards&f: &fYou do not have any available rewards at the moment.");
         msg.addDefault("cooldown-msg", "&aRewards&f: &fTime until next reward: %time%");
@@ -124,7 +125,7 @@ public class SettingsManager {
     }
 
     public void reloadMsg() {
-        msg = (FileConfiguration) YamlConfiguration.loadConfiguration(mfile);
+        msg = YamlConfiguration.loadConfiguration(mfile);
     }
 
     public static FileConfiguration getData() {
@@ -140,7 +141,7 @@ public class SettingsManager {
     }
 
     public void reloadData() {
-        data = (FileConfiguration) YamlConfiguration.loadConfiguration(dfile);
+        data = YamlConfiguration.loadConfiguration(dfile);
     }
 
     public static FileConfiguration getConfig() {
@@ -156,14 +157,6 @@ public class SettingsManager {
     }
 
     public void reloadConfig() {
-        config = (FileConfiguration) YamlConfiguration.loadConfiguration(cfile);
-    }
-
-    public PluginDescriptionFile getDesc() {
-        return p.getDescription();
-    }
-
-    public static boolean containsIgnoreCase(String str, String subString) {
-        return str.toLowerCase().contains(subString.toLowerCase());
+        config = YamlConfiguration.loadConfiguration(cfile);
     }
 }

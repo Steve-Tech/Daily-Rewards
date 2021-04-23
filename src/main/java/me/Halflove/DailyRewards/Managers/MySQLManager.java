@@ -11,7 +11,7 @@ import java.sql.SQLException;
 import java.util.UUID;
 
 public class MySQLManager {
-    static Main plugin = (Main) Main.getPlugin(Main.class);
+    static Main plugin = Main.getPlugin(Main.class);
 
     public static boolean playerExistsUUID(UUID uuid, boolean notify) {
         try {

@@ -19,12 +19,6 @@ public class Main extends JavaPlugin implements Listener {
 
     public SettingsManager settings = SettingsManager.getInstance();
 
-    public CooldownManager cdManager;
-
-    public CommandManager cmdManager;
-
-    public RewardManager rwdManager;
-
     public static boolean papi;
 
     public static Connection connection;
@@ -42,7 +36,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onEnable() {
         getCommand("dailyrewards").setExecutor((CommandExecutor) new AdminCommands(this));
         getCommand("reward").setExecutor((CommandExecutor) new RewardCommands());
-        this.settings.setup((Plugin) this);
+        settings.setup((Plugin) this);
         registerEvents();
         if (SettingsManager.getConfig().getBoolean("mysql.enabled")) {
             mysqlSetup();
@@ -76,7 +70,7 @@ public class Main extends JavaPlugin implements Listener {
 
     public void mysqlSetup() {
         host = SettingsManager.getConfig().getString("mysql.host-name");
-        this.port = SettingsManager.getConfig().getInt("mysql.port");
+        port = SettingsManager.getConfig().getInt("mysql.port");
         database = SettingsManager.getConfig().getString("mysql.database");
         username = SettingsManager.getConfig().getString("mysql.username");
         password = SettingsManager.getConfig().getString("mysql.password");
@@ -85,7 +79,7 @@ public class Main extends JavaPlugin implements Listener {
                 if (getConnection() != null && !getConnection().isClosed())
                     return;
                 Class.forName("com.mysql.jdbc.Driver");
-                setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + this.port + "/" + database,
+                setConnection(DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database,
                         username, password));
                 Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Daily Rewards MySQL: Successfully Connected");
             }
