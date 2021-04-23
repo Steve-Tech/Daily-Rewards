@@ -9,8 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -56,25 +54,23 @@ public class AdminCommands implements CommandExecutor {
                     } else {
                         startmysql = false;
                     }
-                    this.plugin.settings.reloadData();
-                    this.plugin.settings.reloadConfig();
-                    this.plugin.settings.reloadMsg();
+                    plugin.settings.reloadData();
+                    plugin.settings.reloadConfig();
+                    plugin.settings.reloadMsg();
                     SettingsManager.saveData();
-                    this.plugin.settings.saveConfig();
-                    this.plugin.settings.saveMsg();
+                    plugin.settings.saveConfig();
+                    plugin.settings.saveMsg();
                     sender.sendMessage(ChatColor.YELLOW + "DailyRewards is reloading...");
-                    (new BukkitRunnable() {
-                        public void run() {
-                            if (SettingsManager.getConfig().getBoolean("mysql.enabled"))
-                                if (startmysql) {
-                                    AdminCommands.this.mysqlSetup();
-                                    MySQLManager.createTable();
-                                } else {
-                                    MySQLManager.createTable();
-                                }
-                            sender.sendMessage(ChatColor.GREEN + "DailyRewards has been successfully reloaded.");
-                        }
-                    }).runTaskLater((Plugin) this.plugin, 20L);
+                    Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
+                        if (SettingsManager.getConfig().getBoolean("mysql.enabled"))
+                            if (startmysql) {
+                                AdminCommands.this.mysqlSetup();
+                                MySQLManager.createTable();
+                            } else {
+                                MySQLManager.createTable();
+                            }
+                        sender.sendMessage(ChatColor.GREEN + "DailyRewards has been successfully reloaded.");
+                    }, 20L);
                 }
                 if (args[0].equalsIgnoreCase("reset")) {
                     if (sender instanceof Player) {

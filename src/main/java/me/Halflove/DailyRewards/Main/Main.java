@@ -58,7 +58,7 @@ public class Main extends JavaPlugin implements Listener {
         }
 
         new UpdateChecker(this, 16708).getLatestVersion(version -> {
-            if(this.getDescription().getVersion().equalsIgnoreCase(version)) {
+            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 getLogger().info("Plugin is up to date.");
             } else {
                 getLogger().severe("*** Daily Rewards is Outdated! ***");
