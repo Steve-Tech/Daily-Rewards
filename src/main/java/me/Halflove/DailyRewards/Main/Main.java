@@ -50,17 +50,17 @@ public class Main extends JavaPlugin implements Listener {
         } else {
             papi = false;
         }
-
-        new UpdateChecker(this, 16708).getLatestVersion(version -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                getLogger().info("Plugin is up to date.");
-            } else {
-                getLogger().severe("*** Daily Rewards is Outdated! ***");
-                getLogger().severe("*** You're on " + this.getDescription().getVersion() + " while " + version + " is available! ***");
-                getLogger().severe("*** Update Here: https://www.spigotmc.org/resources/daily-rewards.16708/ ***");
-            }
-        });
-
+        if (SettingsManager.getConfig().getBoolean("check-for-updates")) {
+            new UpdateChecker(this, 16708).getLatestVersion(version -> {
+                if (getDescription().getVersion().equalsIgnoreCase(version)) {
+                    getLogger().info("Plugin is up to date.");
+                } else {
+                    getLogger().severe("*** Daily Rewards is Outdated! ***");
+                    getLogger().severe("*** You're on " + getDescription().getVersion() + " while " + version + " is available! ***");
+                    getLogger().severe("*** Update Here: https://www.spigotmc.org/resources/daily-rewards.16708/ ***");
+                }
+            });
+        }
     }
 
     private void registerEvents() {

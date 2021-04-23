@@ -21,7 +21,7 @@ public class JoinManager implements Listener {
             if (player.getName().equalsIgnoreCase("halflove"))
                 player.sendMessage(ChatColor.GREEN + "Hey that's cool, they use DailyRewards! :) v"
                         + JoinManager.plugin.getDescription().getVersion());
-            if (player.isOp()) {
+            if (player.isOp() && SettingsManager.getConfig().getBoolean("check-for-updates")) {
                 new UpdateChecker(plugin, 16708).getLatestVersion(version -> {
                     if (!plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
                         player.sendMessage(ChatColor.GOLD + "*** Daily Rewards is Outdated! ***");

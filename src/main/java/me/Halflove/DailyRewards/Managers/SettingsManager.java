@@ -39,7 +39,7 @@ public class SettingsManager {
         config.options().copyDefaults(true);
         config.addDefault("cooldown", 86400000);
         config.addDefault("savetoip", false);
-        config.addDefault("regenerate-default-rewards", Boolean.valueOf(true));
+        config.addDefault("check-for-updates", true);
         config.addDefault("regenerate-default-rewards", true);
         config.addDefault("mysql.enabled", false);
         config.addDefault("mysql.host-name", "localhost");
